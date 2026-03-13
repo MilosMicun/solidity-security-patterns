@@ -20,7 +20,6 @@ contract ReentrancyTest is Test {
     }
 
     function testReentrancyAttack() public {
-        vm.deal(address(attacker), 1 ether);
         attacker.attack{value: 1 ether}();
         assertEq(address(bank).balance, 0);
         assertGt(address(attacker).balance, 1 ether);
