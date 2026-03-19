@@ -76,4 +76,21 @@ contract CommitRevealGameTest is Test {
         vm.expectRevert("Invalid reveal");
         game.reveal(number, salt);
     }
+
+    function testAttackerCannotCopyCommit() public {
+        uint256 aliceNumber = 100;
+        bytes32 aliceSalt = keccak256("secret");
+
+        bytes32 aliceCommit = keccak256(abi.encodePacked(alice, aliceNumber, aliceSalt));
+
+        vm.prank(alice);
+        game.commit(aliceCommit);
+
+        vm.prank(attacker);
+        game.commit(aliceCommit);
+
+        vm.prank(attacker);
+        vm.expectRevert("Invalid reveal");
+        game.reveal(aliceNumber, aliceSalt);
+    }
 }
